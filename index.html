@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dino Sifir 2–9</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#1F5D3A">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Dino Sifir">
+
+<style>
+:root{--ink:#17324d;--cream:#fff8dc;--green:#dff6d8;--mint:#c9f1d4;--sun:#ffd85a;--purple:#e6ddff;--pink:#ffdce9;--blue:#d8efff}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(#d8f5ff 0 34%,#f8f1c8 34% 70%,#cfe8b4 70%);color:var(--ink);min-height:100vh}
+.app{max-width:940px;margin:auto;padding:16px}
+header{text-align:center} .mascot{font-size:78px} h1{font-size:clamp(38px,7vw,64px);margin:4px} .tag{font-size:20px;font-weight:900}
+.card{background:#fff;border-radius:30px;padding:22px;margin:16px 0;box-shadow:0 9px 0 rgba(23,50,77,.14)}
+.hidden{display:none} .center{text-align:center}
+input{width:100%;padding:15px;border:3px solid #d5e8ef;border-radius:18px;font-size:22px;font-weight:700}
+button{border:0;border-radius:22px;padding:17px;font-size:22px;font-weight:900;color:var(--ink);cursor:pointer;box-shadow:0 5px 0 rgba(23,50,77,.15)}
+button:active{transform:translateY(3px)} .utama{width:100%;background:var(--sun);margin-top:14px}
+.kecil{font-size:16px;padding:9px 13px;background:#eef6fb;box-shadow:none}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px} .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.t2{background:#ffd7a8}.t3{background:#d8f0ff}.t4{background:#eadcff}.t5{background:#dff7df}.t6{background:#ffe0eb}.t7{background:#fff0a8}.t8{background:#cdeee8}.t9{background:#ffd8cf}
+.seq{display:grid;grid-template-columns:repeat(5,1fr);gap:9px}
+.num{padding:16px 8px;text-align:center;border-radius:16px;background:#f2f7fa;font-size:30px;font-weight:900}
+.game{padding:22px;border-radius:26px;text-align:center;font-size:22px;font-weight:900}
+.g1{background:#fff0a8} .g2{background:#dff2ff} .g3{background:#e8ddff} .g4{background:#dff7df}
+.soalan{text-align:center;font-size:clamp(48px,9vw,86px);font-weight:900;margin:18px 0}
+.jawapan{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.maklum{text-align:center;font-size:30px;font-weight:900;min-height:45px;margin:12px}
+.papan{font-size:20px;font-weight:800;text-align:center}
+.track{height:30px;background:#e8eef2;border-radius:20px;overflow:hidden;margin:18px 0}
+.runner{height:100%;width:0;background:#7bd36d;transition:.3s}
+.egg{font-size:36px}
+.dino-card{padding:18px;border-radius:22px;background:#fff7c9;text-align:center;font-weight:900}
+@media(max-width:650px){.grid4{grid-template-columns:repeat(2,1fr)}.grid3,.jawapan{grid-template-columns:1fr}.seq{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+<div class="mascot">🦕🦖🥚</div>
+<h1>Dino Sifir!</h1>
+<div class="tag">Hafal • Main • Menang 🌋</div><button id="installBtn" class="kecil hidden" style="margin-top:10px">📱 PASANG APP DINO SIFIR</button>
+</header>
+
+<section id="masuk" class="card">
+<h2 class="center">Hai penjelajah dino! Siapa nama kamu? 👋</h2>
+<input id="nama" placeholder="Taip nama murid">
+<button class="utama" onclick="mula()">MULA PENGEMBARAAN 🚀</button>
+</section>
+
+<section id="menu" class="card hidden">
+<button class="kecil" onclick="papar('masuk')">← Tukar nama</button>
+<h2 class="center">Pilih sifir, <span id="sapaan"></span> 🦖</h2>
+<div class="grid4">
+<button class="t2" onclick="belajar(2)">SIFIR 2</button><button class="t3" onclick="belajar(3)">SIFIR 3</button>
+<button class="t4" onclick="belajar(4)">SIFIR 4</button><button class="t5" onclick="belajar(5)">SIFIR 5</button>
+<button class="t6" onclick="belajar(6)">SIFIR 6</button><button class="t7" onclick="belajar(7)">SIFIR 7</button>
+<button class="t8" onclick="belajar(8)">SIFIR 8</button><button class="t9" onclick="belajar(9)">SIFIR 9</button>
+</div>
+</section>
+
+<section id="belajar" class="card hidden">
+<button class="kecil" onclick="papar('menu')">← Menu utama</button>
+<h2 id="tajukSifir" class="center"></h2>
+<div class="dino-card">
+<div style="font-size:44px">🦕📚</div>
+<div style="font-size:20px">Hafal sifir ini dahulu sebelum masuk ke dunia permainan.</div>
+</div>
+<div id="urutan" class="seq" style="margin-top:15px"></div>
+<button class="utama" onclick="papar('permainan')">SAYA SUDAH HAFAL • MASUK DUNIA DINO 🎮</button>
+</section>
+
+<section id="permainan" class="card hidden">
+<button class="kecil" onclick="papar('belajar')">← Kembali</button>
+<h2 class="center">Pilih permainan dino 🎮</h2>
+<div class="grid3">
+<button class="game g1" onclick="mulaTelur()">🥚<br>BURU TELUR DINO</button>
+<button class="game g2" onclick="mulaMakan()">🍎<br>SUAP DINO</button>
+<button class="game g3" onclick="mulaGunung()">🌋<br>LEPAS GUNUNG BERAPI</button>
+</div>
+<button class="utama" onclick="mulaJejak()">🦖 JEJAK DINO HILANG</button>
+</section>
+
+<section id="aktiviti" class="card hidden">
+<button class="kecil" onclick="papar('permainan')">← Permainan</button>
+<div class="papan"><span id="namaGame"></span> • Soalan <span id="bil">1</span>/10 • ⭐ <span id="skor">0</span></div>
+<div id="soalan" class="soalan"></div>
+<div id="pilihan" class="jawapan"></div>
+<div id="maklum" class="maklum"></div>
+<div id="progressWrap" class="hidden"><div class="track"><div id="runner" class="runner"></div></div><div class="center">🦖 Dino bergerak setiap kali jawapan betul!</div></div>
+</section>
+
+<section id="keputusan" class="card hidden center">
+<div id="lencana" style="font-size:82px">🏆</div>
+<h2 id="namaKeputusan"></h2>
+<div style="font-size:24px;font-weight:800">Sifir <span id="sifirKeputusan"></span></div>
+<div style="font-size:24px;font-weight:800">Skor: <span id="skorKeputusan"></span>/10</div>
+<h2 id="tahap"></h2>
+<div style="font-size:20px;font-weight:800">Masa: <span id="masa"></span> saat</div>
+<button class="utama" onclick="papar('permainan')">MAIN LAGI 🦕</button>
+<div id="statusSimpan" class="center" style="margin-top:12px"></div>
+</section>
+</div>
+
+<script>
+const URL_REKOD="https://script.google.com/macros/s/AKfycbzVJ_yF3LrSWgx8gEraEBvRpWud9VZnlXp6OqGcj7eaXQu0LjY1jGWCgkR4UYsU6ZQ/exec";
+let murid="",sifir=2,skor=0,indeks=0,betul=0,mulaMasa=0,jenis="";
+
+function papar(id){
+ ['masuk','menu','belajar','permainan','aktiviti','keputusan'].forEach(x=>document.getElementById(x).classList.add('hidden'));
+ document.getElementById(id).classList.remove('hidden');
+}
+function mula(){
+ murid=document.getElementById('nama').value.trim();
+ if(!murid){alert('Masukkan nama dahulu 😊');return;}
+ document.getElementById('sapaan').textContent=murid;papar('menu');
+}
+function belajar(n){
+ sifir=n;papar('belajar');document.getElementById('tajukSifir').textContent='Sifir '+n+' 🦖';
+ let u=document.getElementById('urutan');u.innerHTML='';
+ for(let i=1;i<=10;i++){let d=document.createElement('div');d.className='num';d.textContent=n+' × '+i+' = '+(n*i);u.appendChild(d);}
+}
+function sediaGame(nama){
+ jenis=nama;skor=0;indeks=0;mulaMasa=Date.now();
+ document.getElementById('skor').textContent=0;document.getElementById('namaGame').textContent=nama;
+ document.getElementById('progressWrap').classList.toggle('hidden',nama!=='Lepas Gunung Berapi');
+ document.getElementById('runner').style.width='0%';papar('aktiviti');
+}
+function mulaTelur(){sediaGame('Buru Telur Dino');soalanDarab('🥚');}
+function mulaMakan(){sediaGame('Suap Dino');soalanDarab('🦕🍎');}
+function mulaGunung(){sediaGame('Lepas Gunung Berapi');soalanDarab('🌋');}
+function mulaJejak(){sediaGame('Jejak Dino Hilang');soalanHilang();}
+
+function buatPilihan(jawapan){
+ let o=[jawapan];
+ while(o.length<3){let x=sifir*(1+Math.floor(Math.random()*10));if(!o.includes(x))o.push(x);}
+ o.sort(()=>Math.random()-.5);
+ let p=document.getElementById('pilihan');p.innerHTML='';
+ o.forEach(x=>{let b=document.createElement('button');b.innerHTML='<span class="egg">🥚</span><br>'+x;b.onclick=()=>semak(x,jawapan);p.appendChild(b);});
+}
+function soalanDarab(ikon){
+ if(indeks>=10){tamat();return;}
+ document.getElementById('bil').textContent=indeks+1;
+ let m=1+Math.floor(Math.random()*10);betul=sifir*m;
+ document.getElementById('soalan').textContent=ikon+'  '+sifir+' × '+m+' = ?';
+ buatPilihan(betul);document.getElementById('maklum').textContent='';
+}
+function soalanHilang(){
+ if(indeks>=10){tamat();return;}
+ document.getElementById('bil').textContent=indeks+1;
+ let pos=2+Math.floor(Math.random()*7);betul=sifir*pos;
+ let a=[];for(let i=Math.max(1,pos-2);i<=Math.min(10,pos+2);i++)a.push(i===pos?'🦖❓':sifir*i);
+ document.getElementById('soalan').textContent=a.join('   ');
+ buatPilihan(betul);document.getElementById('maklum').textContent='Cari nombor yang hilang!';
+}
+function semak(x,j){
+ if(x===j){skor++;document.getElementById('maklum').textContent='✅ HEBAT! DINO GEMBIRA!';
+   if(jenis==='Lepas Gunung Berapi')document.getElementById('runner').style.width=(skor*10)+'%';
+ }else{document.getElementById('maklum').textContent='💛 CUBA LAGI, PENJELAJAH!';}
+ document.getElementById('skor').textContent=skor;indeks++;
+ setTimeout(()=>{if(jenis==='Jejak Dino Hilang')soalanHilang();else soalanDarab(jenis==='Buru Telur Dino'?'🥚':jenis==='Suap Dino'?'🦕🍎':'🌋');},700);
+}
+function tahapSkor(p){if(p===100)return['🏆 JUARA DINO SIFIR','🏆'];if(p>=80)return['🥇 MENGUASAI','🥇'];if(p>=50)return['⭐ SEDANG MENGUASAI','⭐'];return['🌱 PERLU BIMBINGAN','🌱'];}
+async function tamat(){
+ let saat=Math.max(1,Math.round((Date.now()-mulaMasa)/1000)),pct=skor*10,t=tahapSkor(pct);
+ document.getElementById('namaKeputusan').textContent=murid;document.getElementById('sifirKeputusan').textContent=sifir;
+ document.getElementById('skorKeputusan').textContent=skor;document.getElementById('tahap').textContent=t[0];
+ document.getElementById('lencana').textContent=t[1];document.getElementById('masa').textContent=saat;papar('keputusan');
+ let data={nama:murid,sifir:sifir,soalan:10,betul:skor,skor_pct:pct,tahap:t[0],tempoh_saat:saat,aktiviti:jenis,masa:new Date().toISOString()};
+ try{
+   await fetch(URL_REKOD,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(data)});
+   document.getElementById('statusSimpan').textContent='✅ Rekod telah dihantar.';
+ }catch(e){
+   document.getElementById('statusSimpan').textContent='⚠️ Rekod belum berjaya dihantar.';
+ }
+}
+
+let deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',(e)=>{
+  e.preventDefault();
+  deferredPrompt=e;
+  const b=document.getElementById('installBtn');
+  if(b) b.classList.remove('hidden');
+});
+document.addEventListener('click',async(e)=>{
+  if(e.target && e.target.id==='installBtn' && deferredPrompt){
+    deferredPrompt.prompt();
+    await deferredPrompt.userChoice;
+    deferredPrompt=null;
+    e.target.classList.add('hidden');
+  }
+});
+window.addEventListener('appinstalled',()=>{
+  const b=document.getElementById('installBtn');
+  if(b) b.classList.add('hidden');
+});
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js'));
+}
+
+</script>
+</body>
+</html>
